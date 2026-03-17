@@ -1,40 +1,25 @@
 package api
 
 import (
-	"encoding/json"
 	"net/http"
-	"strings"
 
 	"cryptomonitor/internal/domain"
 )
 
 type CryptoMonitorServer struct {
 	exchange domain.Exchange
+	http.Handler
 }
 
 func NewCryptoMonitorServer(e domain.Exchange) *CryptoMonitorServer {
-	return &CryptoMonitorServer{
-		exchange: e,
-	}
-}
+	c := new(CryptoMonitorServer)
 
-func (c *CryptoMonitorServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	coin := strings.TrimPrefix(r.URL.Path, "/v1/prices/")
+	c.exchange = e
+	
+	router := http.NewServeMux()
+	router.Handle("/v1/prices/", http.HandlerFunc(c.showPriceHandler))
 
-	price, err := c.exchange.GetPrice(coin)
-	if err != nil {
-		w.WriteHeader(http.StatusNotFound)
-		msg := struct {
-			ErrMsg string `json:"error"`
-		}{
-			ErrMsg: "oh no",
-		}
+	c.Handler = router
 
-		js, _ := json.Marshal(msg)
-		w.Write(js)
-		return
-	}
-
-	js, _ := json.Marshal(price)
-	w.Write(js)
+	return c
 }
