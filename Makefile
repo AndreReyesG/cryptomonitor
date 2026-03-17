@@ -29,3 +29,9 @@ tidy:
 	go mod tidy
 	@echo 'Formatting .go files...'
 	go fmt ./...
+
+## test/api: test api package
+.PHONY: test/api
+test/api:
+	go test ./internal/api
+
