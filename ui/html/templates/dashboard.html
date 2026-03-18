@@ -2,6 +2,11 @@
 
 {{range .}}
 <h2>{{.Coin}}</h2>
+<ul>
+    <li>Precio: {{.Value}} mxn</li>
+    <li>Exchange: <a href='https://www.coingecko.com/'>{{.Exchange}}</a></li>
+    <li>Última actualización: {{.LastUpdated.Format "2006-01-02"}}</li>
+</ul>
 {{end}}
 
 {{end}}
