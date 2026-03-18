@@ -16,9 +16,16 @@ func TestRender(t *testing.T) {
 		{Coin: "ethereum"},
 	}
 
+	dashboard, err := ui.NewRenderer()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	page := "dashboard.html"
+
 	t.Run("muestra monedas en HTML", func(t *testing.T) {
 		buf := bytes.Buffer{}
-		if err := ui.Render(&buf, coins); err != nil {
+		if err := dashboard.Render(&buf, coins, page); err != nil {
 			t.Fatal(err)
 		}
 

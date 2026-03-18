@@ -1,3 +1,4 @@
+{{define "base"}}
 <!DOCTYPE html>
 <html>
     <head>
@@ -9,8 +10,9 @@
             <h1>CryptoMonitor</h1>
         </header>
         <main>
-            <p>Todavía no hay nada que ver.</p>
+            {{template "main" .}}
         </main>
         <footer>Hecho con <a href='https://go.dev/'>Go</a></footer>
     </body>
 </html>
+{{end}}
