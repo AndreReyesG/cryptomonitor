@@ -3,6 +3,7 @@ package ui_test
 import (
 	"bytes"
 	"testing"
+	"time"
 
 	"cryptomonitor/internal/domain"
 	"cryptomonitor/ui"
@@ -12,8 +13,18 @@ import (
 
 func TestRender(t *testing.T) {
 	coins := []domain.Price{
-		{Coin: "bitcoin"},
-		{Coin: "ethereum"},
+		{
+			Coin:        "bitcoin",
+			Value:       1309186,
+			LastUpdated: time.Now(),
+			Exchange:    "coingecko",
+		},
+		{
+			Coin:        "ethereum",
+			Value:       40815,
+			LastUpdated: time.Now(),
+			Exchange:    "coingecko",
+		},
 	}
 
 	dashboard, err := ui.NewRenderer()
