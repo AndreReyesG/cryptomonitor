@@ -35,3 +35,7 @@ tidy:
 test/api:
 	go test ./internal/api
 
+## test/ui: test ui package
+.PHONY: test/ui
+test/ui:
+	go test ./ui
