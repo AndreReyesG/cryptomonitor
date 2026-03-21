@@ -9,6 +9,6 @@ func (s *CryptoMonitorServer) showDashboardHandler(w http.ResponseWriter, r *htt
 }
 
 func (s *CryptoMonitorServer) refreshHandler(w http.ResponseWriter, r *http.Request) {
-	s.RefreshPrices()
+	s.prices = s.GetPrices()
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
