@@ -12,8 +12,8 @@ import (
 )
 
 var (
-	//go:embed "html"
-	files embed.FS
+	//go:embed "html" "static"
+	Files embed.FS
 )
 
 type Renderer struct {
@@ -22,7 +22,7 @@ type Renderer struct {
 
 func NewRenderer() (*Renderer, error) {
 	cache := map[string]*template.Template{}
-	pages, err := fs.Glob(files, "html/templates/*.html")
+	pages, err := fs.Glob(Files, "html/templates/*.html")
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +34,7 @@ func NewRenderer() (*Renderer, error) {
 			page,
 		}
 
-		templ, err := template.ParseFS(files, patterns...)
+		templ, err := template.ParseFS(Files, patterns...)
 		if err != nil {
 			return nil, err
 		}
