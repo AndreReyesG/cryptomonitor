@@ -5,21 +5,12 @@ import (
 	"net/http"
 
 	"cryptomonitor/internal/api"
-	"cryptomonitor/internal/domain"
+	"cryptomonitor/internal/exchanges"
 )
 
-type InMemoryExchange struct{}
-
-func (i *InMemoryExchange) GetPrice(coin string) (domain.Price, error) {
-	return domain.Price{
-		Coin:     "dogecoin",
-		Currency: "mxn",
-		Value:    1.81,
-	}, nil
-}
-
 func main() {
-	server := api.NewCryptoMonitorServer(&InMemoryExchange{})
+	coingecko := exchanges.NewCoinGecko(exchanges.CoinGeckoAPIKey, http.DefaultClient, exchanges.RealTime{})
+	server := api.NewCryptoMonitorServer(coingecko)
 	log.Print("Iniciando servidor en el puerto :4000")
 	log.Fatal(http.ListenAndServe(":4000", server))
 }
