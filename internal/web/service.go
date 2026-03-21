@@ -36,7 +36,3 @@ func (s *CryptoMonitorServer) GetPrices() []domain.Price {
 
 	return prices
 }
-
-func (s *CryptoMonitorServer) RefreshPrices() {
-	s.prices = s.GetPrices()
-}
