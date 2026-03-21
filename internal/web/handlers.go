@@ -7,3 +7,8 @@ func (s *CryptoMonitorServer) showDashboardHandler(w http.ResponseWriter, r *htt
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
+
+func (s *CryptoMonitorServer) refreshHandler(w http.ResponseWriter, r *http.Request) {
+	s.RefreshPrices()
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}

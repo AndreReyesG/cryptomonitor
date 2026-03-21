@@ -5,8 +5,11 @@
 <ul>
     <li>Precio: {{.Value}} mxn</li>
     <li>Exchange: <a href='https://www.coingecko.com/'>{{.Exchange}}</a></li>
-    <li>Última actualización: {{.LastUpdated.Format "2006-01-02"}}</li>
+    <li>Última actualización: {{.LastUpdated}}</li>
 </ul>
 {{end}}
+<form action='/refresh' method='POST'>
+    <input type='submit' value='Recargar Precios'>
+</form>
 
 {{end}}

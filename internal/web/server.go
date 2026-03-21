@@ -35,7 +35,8 @@ func NewCryptoMonitorServer(client platformhttp.Client, coins []string) (*Crypto
 	server.prices = server.GetPrices()
 
 	router := http.NewServeMux()
-	router.Handle("/{$}", http.HandlerFunc(server.showDashboardHandler))
+	router.Handle("GET /{$}", http.HandlerFunc(server.showDashboardHandler))
+	router.Handle("POST /refresh", http.HandlerFunc(server.refreshHandler))
 
 	server.Handler = router
 
