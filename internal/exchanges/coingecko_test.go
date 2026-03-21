@@ -8,6 +8,7 @@ import (
 	"cryptomonitor/internal/assert"
 	"cryptomonitor/internal/domain"
 	"cryptomonitor/internal/exchanges"
+	phttp "cryptomonitor/internal/platform/http"
 )
 
 var (
@@ -28,7 +29,7 @@ func TestCoinGeckoExchange(t *testing.T) {
 
 func TestCoinGecko_ErrorAPIKey(t *testing.T) {
 	t.Run("regresa error cuando la api key no es valida", func(t *testing.T) {
-		stubClient := exchanges.NewStubClient(http.StatusUnauthorized, `{}`)
+		stubClient := phttp.NewStub(http.StatusUnauthorized, `{}`)
 		coingecko := exchanges.NewCoinGecko("pa55word", stubClient, dummyStubTime)
 		_, err := coingecko.GetPrice("bitcoin")
 		assert.Error(t, err, exchanges.ErrAPIKeyMissing)
@@ -37,7 +38,7 @@ func TestCoinGecko_ErrorAPIKey(t *testing.T) {
 
 func TestCoinGecko_ErrorCoinNotFound(t *testing.T) {
 	t.Run("regresa error con moneda inexistente", func(t *testing.T) {
-		stubClient := exchanges.NewStubClient(http.StatusOK, `{}`)
+		stubClient := phttp.NewStub(http.StatusOK, `{}`)
 		coingecko := exchanges.NewCoinGecko("pa55word", stubClient, dummyStubTime)
 		_, err := coingecko.GetPrice("chale")
 		assert.Error(t, err, exchanges.ErrCoinNotFound)
@@ -47,7 +48,7 @@ func TestCoinGecko_ErrorCoinNotFound(t *testing.T) {
 func TestCoinGecko_ReturnBitcoin(t *testing.T) {
 	t.Run("regresar bitcoin", func(t *testing.T) {
 		body := `{"bitcoin":{"mxn":1309186}}`
-		stubClient := exchanges.NewStubClient(http.StatusOK, body)
+		stubClient := phttp.NewStub(http.StatusOK, body)
 		coingecko := exchanges.NewCoinGecko("pa55word", stubClient, stubTime)
 
 		got, _ := coingecko.GetPrice("bitcoin")
