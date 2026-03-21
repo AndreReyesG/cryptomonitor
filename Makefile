@@ -30,6 +30,11 @@ tidy:
 	@echo 'Formatting .go files...'
 	go fmt ./...
 
+## test: test all project
+.PHONY: test
+test:
+	go test -v ./...
+
 ## test/api: test api package
 .PHONY: test/api
 test/api:
