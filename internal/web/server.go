@@ -34,11 +34,7 @@ func NewCryptoMonitorServer(client platformhttp.Client, coins []string) (*Crypto
 	// TODO: Buscar una mejor soloción para el método GetPrices ¿Un Stub?
 	server.prices = server.GetPrices()
 
-	router := http.NewServeMux()
-	router.Handle("GET /{$}", http.HandlerFunc(server.showDashboardHandler))
-	router.Handle("POST /refresh", http.HandlerFunc(server.refreshHandler))
-
-	server.Handler = router
+	server.Handler = server.routes()
 
 	return server, nil
 }
