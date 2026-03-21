@@ -13,8 +13,9 @@ import (
 )
 
 var (
-	fixedTime = time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
-	stubTime  = ptime.Stub{T: fixedTime}
+	fixedTime    = time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
+	stubTime     = ptime.Stub{T: fixedTime}
+	coingeckoURL = "https://www.coingecko.com/"
 )
 
 func TestRender(t *testing.T) {
@@ -24,12 +25,14 @@ func TestRender(t *testing.T) {
 			Value:       1309186,
 			LastUpdated: stubTime.Now(),
 			Exchange:    "coingecko",
+			ExchangeURL: coingeckoURL,
 		},
 		{
 			Coin:        "ethereum",
 			Value:       40815,
 			LastUpdated: stubTime.Now(),
 			Exchange:    "coingecko",
+			ExchangeURL: coingeckoURL,
 		},
 	}
 

@@ -47,6 +47,11 @@ func Price(t testing.TB, got, want domain.Price) {
 			got.Exchange, want.Exchange)
 	}
 
+	if got.ExchangeURL != want.ExchangeURL {
+		t.Fatalf("no concuerda domain.Price.ExchangeURL; se obtuvo %q, se queria %q",
+			got.ExchangeURL, want.ExchangeURL)
+	}
+
 	if got.LastUpdated != want.LastUpdated {
 		t.Fatalf("no concuerda domain.Price.LastUpdated; se obtuvo %v, se queria %v",
 			got.LastUpdated, want.LastUpdated)

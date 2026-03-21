@@ -70,6 +70,7 @@ func (c *CoinGecko) GetPrice(coin string) (domain.Price, error) {
 		Coin:        coin,
 		Currency:    "mxn",
 		Exchange:    "coingecko",
+		ExchangeURL: "https://www.coingecko.com/",
 		Value:       price["mxn"],
 		LastUpdated: c.clock.Now(),
 	}, nil

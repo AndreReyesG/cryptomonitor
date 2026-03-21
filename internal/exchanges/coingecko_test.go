@@ -16,6 +16,7 @@ var (
 	fixedTime     = time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
 	stubTime      = ptime.Stub{T: fixedTime}
 	dummyStubTime = ptime.Stub{}
+	coingeckoURL  = "https://www.coingecko.com/"
 )
 
 // NOTE: TestCoinGeckoExchange son pruebas de integración.
@@ -57,6 +58,7 @@ func TestCoinGecko_ReturnBitcoin(t *testing.T) {
 			Coin:        "bitcoin",
 			Currency:    "mxn",
 			Exchange:    "coingecko",
+			ExchangeURL: coingeckoURL,
 			Value:       1309186,
 			LastUpdated: fixedTime,
 		}

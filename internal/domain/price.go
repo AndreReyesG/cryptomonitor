@@ -7,5 +7,6 @@ type Price struct {
 	Currency    string    `json:"currency"`
 	Value       float64   `json:"value"`
 	Exchange    string    `json:"exchange"`
+	ExchangeURL string    `json:"exchange_url"`
 	LastUpdated time.Time `json:"last_updated"`
 }
