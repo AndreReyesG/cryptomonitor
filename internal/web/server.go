@@ -10,7 +10,7 @@ import (
 
 type CryptoMonitorServer struct {
 	client platformhttp.Client
-	coins  []string // NOTE: ¿Realmente se necesita?
+	coins  []string
 	prices []domain.Price
 	templ  *ui.Renderer
 	http.Handler
@@ -32,7 +32,7 @@ func NewCryptoMonitorServer(client platformhttp.Client, coins []string) (*Crypto
 	server.templ = templ
 
 	// TODO: Buscar una mejor soloción para el método GetPrices ¿Un Stub?
-	server.prices = server.GetPrices(coins)
+	server.prices = server.GetPrices()
 
 	router := http.NewServeMux()
 	router.Handle("/{$}", http.HandlerFunc(server.showDashboardHandler))

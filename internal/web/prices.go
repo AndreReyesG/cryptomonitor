@@ -23,10 +23,10 @@ func (s *CryptoMonitorServer) GetPrice(coin string) (domain.Price, error) {
 
 // TODO: Buscar una mejor soloción para el método GetPrices ¿Un Stub?
 // TODO: Agregar logs.
-func (s *CryptoMonitorServer) GetPrices(coins []string) []domain.Price {
+func (s *CryptoMonitorServer) GetPrices() []domain.Price {
 	var prices []domain.Price
 
-	for _, coin := range coins {
+	for _, coin := range s.coins {
 		p, err := s.GetPrice(coin)
 		if err != nil {
 			continue
