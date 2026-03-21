@@ -1,1 +1,81 @@
 package exchanges
+
+import (
+	"encoding/json"
+	"errors"
+	"fmt"
+	"net/http"
+	"time"
+
+	"cryptomonitor/internal/domain"
+)
+
+type TimeProvider interface {
+	Now() time.Time
+}
+
+type RealTime struct{}
+
+func (r RealTime) Now() time.Time {
+	return time.Now()
+}
+
+type CoinGecko struct {
+	key    string
+	client HTTPClient
+	clock  TimeProvider
+}
+
+func NewCoinGecko(key string, client HTTPClient, clock TimeProvider) *CoinGecko {
+	return &CoinGecko{
+		key:    key,
+		client: client,
+		clock:  clock,
+	}
+}
+
+type CoinGeckoResponse map[string]map[string]float64
+
+const CoinGeckoAPIKey = "CG-Xkt8ErqVvXxSxUUMBEds5Zhq"
+
+var (
+	ErrAPIKeyMissing = errors.New("coinGecko: API key invalida")
+	ErrCoinNotFound  = errors.New("coinGecko: moneda no encontrada")
+)
+
+func (c *CoinGecko) GetPrice(coin string) (domain.Price, error) {
+	url := fmt.Sprintf(
+		"https://api.coingecko.com/api/v3/simple/price?vs_currencies=mxn&ids=%s&x_cg_demo_api_key=%s",
+		coin,
+		c.key,
+	)
+
+	resp, err := c.client.Get(url)
+	if err != nil {
+		return domain.Price{}, fmt.Errorf("coinGecko: error al hacer request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode == http.StatusUnauthorized {
+		return domain.Price{}, ErrAPIKeyMissing
+	}
+
+	coinGeckoResponse := make(CoinGeckoResponse)
+	err = json.NewDecoder(resp.Body).Decode(&coinGeckoResponse)
+	if err != nil {
+		return domain.Price{}, fmt.Errorf("coinGecko: error al decodificar respuesta: %w", err)
+	}
+
+	price, ok := coinGeckoResponse[coin]
+	if !ok {
+		return domain.Price{}, ErrCoinNotFound
+	}
+
+	return domain.Price{
+		Coin:        coin,
+		Currency:    "mxn",
+		Exchange:    "coingecko",
+		Value:       price["mxn"],
+		LastUpdated: c.clock.Now(),
+	}, nil
+}

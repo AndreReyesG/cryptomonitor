@@ -39,3 +39,8 @@ test/api:
 .PHONY: test/ui
 test/ui:
 	go test ./ui
+
+## test/exchanges: test ui package
+.PHONY: test/exchanges
+test/exchanges:
+	go test ./internal/exchanges
