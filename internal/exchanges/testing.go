@@ -4,7 +4,16 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"time"
 )
+
+type StubTime struct {
+	T time.Time
+}
+
+func (s StubTime) Now() time.Time {
+	return s.T
+}
 
 type StubClient struct {
 	resp *http.Response
