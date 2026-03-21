@@ -19,6 +19,13 @@ func Error(t testing.TB, got, want error) {
 	}
 }
 
+func NoError(t testing.TB, got error) {
+	t.Helper()
+	if got != nil {
+		t.Fatalf("se obtuvo un error, '%q'", got.Error())
+	}
+}
+
 func Price(t testing.TB, got, want domain.Price) {
 	t.Helper()
 	if got.Coin != want.Coin {
