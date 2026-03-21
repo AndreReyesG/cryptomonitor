@@ -35,11 +35,7 @@ func NewCryptoMonitorServer(client platformhttp.Client, coins []string) (*Crypto
 	c.prices = c.GetPrices(coins)
 
 	router := http.NewServeMux()
-	router.Handle("/{$}", http.HandlerFunc(func(w http.ResponseWriter, h *http.Request) {
-		if err := c.templ.Render(w, c.prices, "dashboard.html"); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-	}))
+	router.Handle("/{$}", http.HandlerFunc(c.showDashboardHandler))
 
 	c.Handler = router
 
