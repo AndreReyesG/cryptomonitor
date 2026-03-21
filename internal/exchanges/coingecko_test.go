@@ -20,7 +20,7 @@ var (
 func TestCoinGeckoExchange(t *testing.T) {
 	t.Skip("saltar pruebas de integracion")
 	t.Run("regresa error cuando la api key no es valida", func(t *testing.T) {
-		coingecko := exchanges.NewCoinGecko("pa55word", http.DefaultClient, dummyStubTime)
+		coingecko := exchanges.NewCoinGecko("pa55word", http.DefaultClient, nil)
 		_, err := coingecko.GetPrice("bitcoin")
 		assert.Error(t, err, exchanges.ErrAPIKeyMissing)
 	})

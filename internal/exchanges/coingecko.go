@@ -5,20 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"time"
 
 	"cryptomonitor/internal/domain"
 )
-
-type TimeProvider interface {
-	Now() time.Time
-}
-
-type RealTime struct{}
-
-func (r RealTime) Now() time.Time {
-	return time.Now()
-}
 
 type CoinGecko struct {
 	key    string
@@ -27,6 +16,10 @@ type CoinGecko struct {
 }
 
 func NewCoinGecko(key string, client HTTPClient, clock TimeProvider) *CoinGecko {
+	if clock == nil {
+		clock = RealTime{}
+	}
+
 	return &CoinGecko{
 		key:    key,
 		client: client,
