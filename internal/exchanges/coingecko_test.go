@@ -9,12 +9,13 @@ import (
 	"cryptomonitor/internal/domain"
 	"cryptomonitor/internal/exchanges"
 	phttp "cryptomonitor/internal/platform/http"
+	ptime "cryptomonitor/internal/platform/time"
 )
 
 var (
 	fixedTime     = time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
-	stubTime      = exchanges.StubTime{T: fixedTime}
-	dummyStubTime = exchanges.StubTime{}
+	stubTime      = ptime.Stub{T: fixedTime}
+	dummyStubTime = ptime.Stub{}
 )
 
 // NOTE: TestCoinGeckoExchange son pruebas de integración.

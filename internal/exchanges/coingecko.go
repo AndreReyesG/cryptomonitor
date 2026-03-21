@@ -8,17 +8,18 @@ import (
 
 	"cryptomonitor/internal/domain"
 	phttp "cryptomonitor/internal/platform/http"
+	ptime "cryptomonitor/internal/platform/time"
 )
 
 type CoinGecko struct {
 	key    string
 	client phttp.Client
-	clock  TimeProvider
+	clock  ptime.Provider
 }
 
-func NewCoinGecko(key string, client phttp.Client, clock TimeProvider) *CoinGecko {
+func NewCoinGecko(key string, client phttp.Client, clock ptime.Provider) *CoinGecko {
 	if clock == nil {
-		clock = RealTime{}
+		clock = ptime.Real{}
 	}
 
 	return &CoinGecko{
