@@ -6,9 +6,15 @@ import (
 	"time"
 
 	"cryptomonitor/internal/domain"
+	ptime "cryptomonitor/internal/platform/time"
 	"cryptomonitor/ui"
 
 	"github.com/approvals/go-approval-tests"
+)
+
+var (
+	fixedTime = time.Date(2026, 1, 1, 0, 0, 0, 0, time.UTC)
+	stubTime  = ptime.Stub{T: fixedTime}
 )
 
 func TestRender(t *testing.T) {
@@ -16,13 +22,13 @@ func TestRender(t *testing.T) {
 		{
 			Coin:        "bitcoin",
 			Value:       1309186,
-			LastUpdated: time.Now(),
+			LastUpdated: stubTime.Now(),
 			Exchange:    "coingecko",
 		},
 		{
 			Coin:        "ethereum",
 			Value:       40815,
-			LastUpdated: time.Now(),
+			LastUpdated: stubTime.Now(),
 			Exchange:    "coingecko",
 		},
 	}
