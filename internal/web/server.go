@@ -10,16 +10,16 @@ import (
 
 type CryptoMonitorServer struct {
 	client platformhttp.Client
-	coins  []string
+	coins  []string // NOTE: ¿Realmente se necesita?
 	prices []domain.Price
 	templ  *ui.Renderer
 	http.Handler
 }
 
-// TODO: Necita un Builder.
+// NOTE: ¿Necesita un Builder?
 // TODO: Agregar logs.
 func NewCryptoMonitorServer(client platformhttp.Client, coins []string) (*CryptoMonitorServer, error) {
-	c := &CryptoMonitorServer{
+	server := &CryptoMonitorServer{
 		client: client,
 		coins:  coins,
 	}
@@ -29,15 +29,15 @@ func NewCryptoMonitorServer(client platformhttp.Client, coins []string) (*Crypto
 		return nil, err
 	}
 
-	c.templ = templ
+	server.templ = templ
 
 	// TODO: Buscar una mejor soloción para el método GetPrices ¿Un Stub?
-	c.prices = c.GetPrices(coins)
+	server.prices = server.GetPrices(coins)
 
 	router := http.NewServeMux()
-	router.Handle("/{$}", http.HandlerFunc(c.showDashboardHandler))
+	router.Handle("/{$}", http.HandlerFunc(server.showDashboardHandler))
 
-	c.Handler = router
+	server.Handler = router
 
-	return c, nil
+	return server, nil
 }

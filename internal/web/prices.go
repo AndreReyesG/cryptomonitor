@@ -7,9 +7,9 @@ import (
 	"cryptomonitor/internal/domain"
 )
 
-func (c *CryptoMonitorServer) GetPrice(coin string) (domain.Price, error) {
+func (s *CryptoMonitorServer) GetPrice(coin string) (domain.Price, error) {
 	url := fmt.Sprintf("http://localhost:4000/v1/prices/%s", coin)
-	resp, err := c.client.Get(url)
+	resp, err := s.client.Get(url)
 	defer resp.Body.Close()
 	if err != nil {
 		return domain.Price{}, fmt.Errorf("cryptomonitor: error al hacer request: %w", err)
@@ -23,11 +23,11 @@ func (c *CryptoMonitorServer) GetPrice(coin string) (domain.Price, error) {
 
 // TODO: Buscar una mejor soloción para el método GetPrices ¿Un Stub?
 // TODO: Agregar logs.
-func (c *CryptoMonitorServer) GetPrices(coins []string) []domain.Price {
+func (s *CryptoMonitorServer) GetPrices(coins []string) []domain.Price {
 	var prices []domain.Price
 
 	for _, coin := range coins {
-		p, err := c.GetPrice(coin)
+		p, err := s.GetPrice(coin)
 		if err != nil {
 			continue
 		}
