@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"cryptomonitor/internal/api"
+	"cryptomonitor/internal/assert"
 	"cryptomonitor/internal/domain"
 )
 
@@ -25,11 +26,11 @@ func TestGETPrices(t *testing.T) {
 
 		server.ServeHTTP(response, request)
 
-		api.AssertStatus(t, response.Code, http.StatusOK)
+		assert.Status(t, response.Code, http.StatusOK)
 
 		got := api.GetPriceFromResponse(t, response.Body)
-		api.AssertPrice(t, got, exchange.Coins["bitcoin"])
-		api.AssertContentType(t, response, "application/json")
+		assert.Price(t, got, exchange.Coins["bitcoin"])
+		assert.ContentType(t, response, "application/json")
 	})
 
 	t.Run("regresar el precio de ethereum en formato JSON", func(t *testing.T) {
@@ -38,11 +39,11 @@ func TestGETPrices(t *testing.T) {
 
 		server.ServeHTTP(response, request)
 
-		api.AssertStatus(t, response.Code, http.StatusOK)
+		assert.Status(t, response.Code, http.StatusOK)
 
 		got := api.GetPriceFromResponse(t, response.Body)
-		api.AssertPrice(t, got, exchange.Coins["ethereum"])
-		api.AssertContentType(t, response, "application/json")
+		assert.Price(t, got, exchange.Coins["ethereum"])
+		assert.ContentType(t, response, "application/json")
 	})
 
 	t.Run("regresa 404 con monedas no encontradas", func(t *testing.T) {
@@ -55,7 +56,7 @@ func TestGETPrices(t *testing.T) {
 			ErrMsg string `json:"error"`
 		}
 
-		api.AssertStatus(t, response.Code, http.StatusNotFound)
+		assert.Status(t, response.Code, http.StatusNotFound)
 
 		err := json.NewDecoder(response.Body).Decode(&got)
 		if err != nil {
@@ -67,6 +68,6 @@ func TestGETPrices(t *testing.T) {
 			t.Errorf("se obtuvo %q, se quizo %q", got.ErrMsg, want)
 		}
 
-		api.AssertContentType(t, response, "application/json")
+		assert.ContentType(t, response, "application/json")
 	})
 }

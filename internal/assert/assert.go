@@ -2,6 +2,7 @@ package assert
 
 import (
 	"errors"
+	"net/http/httptest"
 	"testing"
 
 	"cryptomonitor/internal/domain"
@@ -42,5 +43,20 @@ func Price(t testing.TB, got, want domain.Price) {
 	if got.LastUpdated != want.LastUpdated {
 		t.Fatalf("no concuerda domain.Price.LastUpdated; se obtuvo %v, se queria %v",
 			got.LastUpdated, want.LastUpdated)
+	}
+}
+
+func Status(t testing.TB, got, want int) {
+	t.Helper()
+	if got != want {
+		t.Errorf("no se obtuvo el estatus esperado; se obtuvo %d, se queria %d", got, want)
+	}
+}
+
+func ContentType(t testing.TB, response *httptest.ResponseRecorder, want string) {
+	t.Helper()
+	if response.Result().Header.Get("content-type") != want {
+		t.Errorf("la respuesta no tenia content-type de tipo %v, se obtuvo %v",
+			want, response.Result().Header)
 	}
 }
