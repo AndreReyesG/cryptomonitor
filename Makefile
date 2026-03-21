@@ -40,7 +40,12 @@ test/api:
 test/ui:
 	go test ./ui
 
-## test/exchanges: test ui package
+## test/exchanges: test exchanges package
 .PHONY: test/exchanges
 test/exchanges:
 	go test ./internal/exchanges
+
+## test/web: test web package
+.PHONY: test/exchanges
+test/web:
+	go test ./internal/web
