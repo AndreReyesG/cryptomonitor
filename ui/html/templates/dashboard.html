@@ -1,15 +1,27 @@
 {{define "main"}}
-
+<div class="grid">
 {{range .}}
-<h2>{{.Coin}}</h2>
-<ul>
-    <li>Precio: {{.Value}} mxn</li>
-    <li>Exchange: <a href='{{.ExchangeURL}}'>{{.Exchange}}</a></li>
-    <li>Última actualización: {{.LastUpdated}}</li>
-</ul>
+    <div class="card">
+        <div class="card-top">
+            <div class="coin-row">
+                <div class="coin-icon">$</div>
+                <div>
+                    <div class="coin-name">{{.Coin}}</div>
+                    <div class="coin-ticker">{{slice .Coin 0 3}}</div>
+                </div>
+            </div>
+            <div class="exchange-badge">{{.Exchange}}</div>
+        </div>
+        <div class="price-label">precio actual</div>
+        <div class="price">
+            ${{printf "%.2f" .Value}}<span class="price-currency">MXN</span>
+        </div>
+        <hr class="card-divider">
+        <div class="card-meta">
+            <span class="meta-label">moneda</span>
+            <span class="meta-value">{{if .Currency}}{{.Currency}}{{else}}MXN{{end}}</span>
+        </div>
+    </div>
 {{end}}
-<form action='/refresh' method='POST'>
-    <input type='submit' value='Recargar Precios'>
-</form>
-
+</div>
 {{end}}
