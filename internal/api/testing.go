@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"testing"
 
@@ -20,6 +21,13 @@ func (s *StubExchange) GetPrice(coin string) (domain.Price, error) {
 		return domain.Price{}, errors.New("oh no")
 	}
 	return s.Coins[coin], nil
+}
+
+// NOTE: ¿Esto es un Proxy?
+func NewTestServer(e domain.Exchange) *CryptoMonitorServer {
+	logger := slog.New(slog.DiscardHandler)
+	server := NewCryptoMonitorServer(e, logger)
+	return server
 }
 
 func NewGetPriceRequest(coin string) *http.Request {

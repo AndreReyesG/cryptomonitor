@@ -18,7 +18,7 @@ func TestGETPrices(t *testing.T) {
 			"ethereum": domain.Price{Coin: "ethereum", Currency: "mxn", Value: 40815},
 		},
 	}
-	server := api.NewCryptoMonitorServer(&exchange)
+	server := api.NewTestServer(&exchange)
 
 	t.Run("regresar el precio de bitcoin en formato JSON", func(t *testing.T) {
 		request := api.NewGetPriceRequest("bitcoin")
