@@ -1,18 +1,25 @@
 package main
 
 import (
-	"log"
+	"log/slog"
 	"net/http"
+	"os"
 
 	"cryptomonitor/internal/web"
 )
 
 func main() {
+	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
+
 	server, err := web.NewCryptoMonitorServer(http.DefaultClient, []string{"bitcoin", "ethereum"})
 	if err != nil {
-		log.Fatal(err)
+		logger.Error(err.Error())
+		os.Exit(1)
 	}
 
-	log.Print("Iniciando servidor en el puerto :9000")
-	log.Fatal(http.ListenAndServe(":9000", server))
+	logger.Info("inicidando servidor", "addr", ":9000")
+
+	err = http.ListenAndServe(":9000", server)
+	logger.Error(err.Error())
+	os.Exit(1)
 }
