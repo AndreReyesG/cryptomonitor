@@ -9,9 +9,9 @@ import (
 )
 
 func main() {
+	coins := []string{"bitcoin", "ethereum"}
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
-
-	server, err := web.NewCryptoMonitorServer(http.DefaultClient, []string{"bitcoin", "ethereum"})
+	server, err := web.NewCryptoMonitorServer(http.DefaultClient, coins, logger)
 	if err != nil {
 		logger.Error(err.Error())
 		os.Exit(1)
