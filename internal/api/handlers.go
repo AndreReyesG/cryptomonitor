@@ -1,7 +1,6 @@
 package api
 
 import (
-	"log"
 	"net/http"
 	"strings"
 )
@@ -17,7 +16,7 @@ func (c *CryptoMonitorServer) showPriceHandler(w http.ResponseWriter, r *http.Re
 
 		err = writeJSON(w, http.StatusNotFound, errMsg)
 		if err != nil {
-			log.Print(err.Error())
+			c.logger.Error(err.Error())
 			http.Error(w, "El servidor encontro un problema y no puede procesar tu request", http.StatusInternalServerError)
 		}
 		return
@@ -25,7 +24,7 @@ func (c *CryptoMonitorServer) showPriceHandler(w http.ResponseWriter, r *http.Re
 
 	err = writeJSON(w, http.StatusOK, price)
 	if err != nil {
-		log.Print(err.Error())
+		c.logger.Error(err.Error())
 		http.Error(w, "El servidor encontro un problema y no puede procesar tu request", http.StatusInternalServerError)
 	}
 }

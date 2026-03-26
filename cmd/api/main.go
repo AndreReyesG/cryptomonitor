@@ -10,10 +10,10 @@ import (
 )
 
 func main() {
-	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
-
 	coingecko := exchanges.NewCoinGecko(exchanges.CoinGeckoAPIKey, http.DefaultClient, nil)
-	server := api.NewCryptoMonitorServer(coingecko)
+
+	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
+	server := api.NewCryptoMonitorServer(coingecko, logger)
 
 	logger.Info("inicidando servidor", "addr", ":4000")
 
