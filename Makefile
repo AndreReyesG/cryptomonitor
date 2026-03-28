@@ -18,6 +18,11 @@ run/web:
 run/api:
 	go run ./cmd/api
 
+## run/example: run the cmd/example/dashboard application
+.PHONY: run/examples/dashboard
+run/examples/dashboard:
+	go run ./cmd/examples/dashboard
+
 # ========================================================================= #
 # QUALITY CONTROL
 # ========================================================================= #
