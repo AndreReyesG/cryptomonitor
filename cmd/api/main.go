@@ -13,9 +13,12 @@ func main() {
 	coingecko := exchanges.NewCoinGecko(exchanges.CoinGeckoAPIKey, http.DefaultClient, nil)
 
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
-	server := api.NewCryptoMonitorServer(coingecko, logger)
 
-	logger.Info("inicidando servidor", "addr", ":4000")
+	proxy := exchanges.NewCoinGeckoProxy(coingecko)
+	server := api.NewCryptoMonitorServer(proxy, logger)
+
+	logger.Info("Iniciando Servidor", "addr", ":4000")
+	logger.Info("Iniciando Proxy de CoinGecko...")
 
 	err := http.ListenAndServe(":4000", server)
 	logger.Error(err.Error())
